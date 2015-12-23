@@ -27,22 +27,36 @@ u_int fibonacci_map(u_int n, std::unordered_map<u_int, u_int> &hash_map)
 
 u_int fibonacci_dp_array(u_int n)
 {
-    u_int f[n+1];     // The aux scruture to store previous subproblems
+    if (n <= 2)
+        return 1;
 
-    f[1] = 1;       // The first two numbers of the sequence are 1 and 1
+    u_int f[n+1];                   // The aux scruture to store previous subproblems
+
+    f[1] = 1;                       // The first two numbers of the sequence are 1 and 1
     f[2] = 1;
 
     for (u_int i=3; i<=n; i++)
-        f[i] = f[i-1] + f[i-2];
+        f[i] = f[i-1] + f[i-2];     // compute the solutions for values <= n
 
     return f[n];
 }
 
+/**
+ *
+ * Similar to the previus implementation, but takes in considerations
+ * the fact that we will only make acess of at most, the 3 values per iteration
+ * 1-> f(i), 2-> i-1, 3-> i-2 and that we will never acess the previously computed
+ * subproblems again.
+ *
+ **/
 u_int fibonacci_memory_efficient(u_int n)
 {
+    if (n <= 2)
+        return 1;
+
     u_int i_minus_1 = 1;
     u_int i_minus_2 = 1;
-    u_int fn = 0;
+    u_int fn;
 
     for (u_int i=3; i<=n; i++)
     {
